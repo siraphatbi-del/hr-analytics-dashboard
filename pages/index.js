@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import { 
-  Users, UserCheck, UserX, Heart
-} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   PieChart as RePie, Pie, Cell, Legend 
@@ -25,68 +22,71 @@ const mockHRData = {
   genderData: [
     { name: 'Female', value: 176, color: '#ec4899' },
     { name: 'Male', value: 135, color: '#3b82f6' }
-  ],
-  performanceData: [
-    { name: 'Exceeds', count: 45 },
-    { name: 'Fully Meets', count: 243 },
-    { name: 'Needs Improvement', count: 18 },
-    { name: 'PIP', count: 5 }
-  ],
-  recruitmentSources: [
-    { source: 'Indeed', count: 87 },
-    { source: 'LinkedIn', count: 76 },
-    { source: 'Google Search', count: 49 },
-    { source: 'Employee Referral', count: 31 },
-    { source: 'Diversity Job Fair', count: 29 }
   ]
 };
 
 export default function HRDashboard() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>Loading Dashboard...</div>;
+
   return (
-    <div className="min-h-screen bg-slate-50 p-6 font-sans">
-      <div className="max-w-7xl mx-auto mb-8">
-        <h1 className="text-3xl font-bold text-slate-800">HR Analytics Interactive Dashboard</h1>
-        <p className="text-slate-500">รายงานสรุปข้อมูลทรัพยากรบุคคลและประสิทธิภาพองค์กร</p>
+    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', padding: '24px', fontFamily: 'sans-serif' }}>
+      {/* Header */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto 24px auto' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1e293b', marginBottom: '4px' }}>
+          HR Analytics Interactive Dashboard
+        </h1>
+        <p style={{ color: '#64748b', margin: 0 }}>รายงานสรุปข้อมูลทรัพยากรบุคคลและประสิทธิภาพองค์กร</p>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-lg"><Users size={24} /></div>
-          <div>
-            <p className="text-sm text-slate-500">พนักงานทั้งหมด</p>
-            <h3 className="text-2xl font-bold text-slate-800">{mockHRData.kpis.totalEmployees} คน</h3>
-          </div>
+      {/* KPI Cards */}
+      <div style={{ 
+        maxWidth: '1200px', 
+        margin: '0 auto 24px auto', 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', 
+        gap: '16px' 
+      }}>
+        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 8px 0' }}>พนักงานทั้งหมด</p>
+          <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#0f172a', margin: 0 }}>{mockHRData.kpis.totalEmployees} คน</h3>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
-          <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg"><UserCheck size={24} /></div>
-          <div>
-            <p className="text-sm text-slate-500">พนักงานปัจจุบัน (Active)</p>
-            <h3 className="text-2xl font-bold text-slate-800">{mockHRData.kpis.activeEmployees} คน</h3>
-          </div>
+        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 8px 0' }}>พนักงานปัจจุบัน (Active)</p>
+          <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#10b981', margin: 0 }}>{mockHRData.kpis.activeEmployees} คน</h3>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
-          <div className="p-3 bg-rose-50 text-rose-600 rounded-lg"><UserX size={24} /></div>
-          <div>
-            <p className="text-sm text-slate-500">ลาออกแล้ว (Terminated)</p>
-            <h3 className="text-2xl font-bold text-slate-800">{mockHRData.kpis.terminatedEmployees} คน</h3>
-          </div>
+        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 8px 0' }}>ลาออกแล้ว (Terminated)</p>
+          <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#ef4444', margin: 0 }}>{mockHRData.kpis.terminatedEmployees} คน</h3>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4">
-          <div className="p-3 bg-purple-50 text-purple-600 rounded-lg"><Heart size={24} /></div>
-          <div>
-            <p className="text-sm text-slate-500">ความผูกพันเฉลี่ย</p>
-            <h3 className="text-2xl font-bold text-slate-800">{mockHRData.kpis.avgEngagement} / 5</h3>
-          </div>
+        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 8px 0' }}>ความผูกพันเฉลี่ย</p>
+          <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#8b5cf6', margin: 0 }}>{mockHRData.kpis.avgEngagement} / 5</h3>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-          <h2 className="text-lg font-bold text-slate-800 mb-4">จำนวนพนักงานแยกตามแผนก</h2>
-          <div className="h-64">
+      {/* Charts Section */}
+      <div style={{ 
+        maxWidth: '1200px', 
+        margin: '0 auto', 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
+        gap: '24px' 
+      }}>
+        {/* Department Distribution */}
+        <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 'bold', color: '#1e293b', marginBottom: '16px' }}>
+            จำนวนพนักงานแยกตามแผนก
+          </h2>
+          <div style={{ width: '100%', height: '300px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={mockHRData.departmentData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -95,15 +95,18 @@ export default function HRDashboard() {
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="active" name="Active" fill="#10b981" />
-                <Bar dataKey="terminated" name="Terminated" fill="#f43f5e" />
+                <Bar dataKey="terminated" name="Terminated" fill="#ef4444" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-          <h2 className="text-lg font-bold text-slate-800 mb-4">สัดส่วนเพศพนักงาน (Gender)</h2>
-          <div className="h-64">
+        {/* Gender Demographics */}
+        <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 'bold', color: '#1e293b', marginBottom: '16px' }}>
+            สัดส่วนเพศพนักงาน (Gender)
+          </h2>
+          <div style={{ width: '100%', height: '300px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <RePie>
                 <Pie data={mockHRData.genderData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
